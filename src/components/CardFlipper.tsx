@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Card from "./Card";
 import { useAtom } from "jotai";
@@ -9,7 +9,11 @@ import {
 	FlippedCardsIdsAtom,
 	MatchedAtom,
 } from "../lib/Atoms";
-import { checkMatch, findMatchingPairs } from "../lib/Functions";
+import { checkMatch, checkWin, findMatchingPairs } from "../lib/Functions";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+
+const MySwal = withReactContent(Swal);
 
 const CardFlipper = ({ id, index }: { id: number; index: number }) => {
 	const [isFlipped, setIsFlipped] = useState(false);
@@ -60,6 +64,21 @@ const CardFlipper = ({ id, index }: { id: number; index: number }) => {
 		setFlippedCards(newFlippedCards);
 		setFlippedCardsIds(newFlippedCardsIds);
 	};
+
+	useEffect(() => {
+		if (checkWin(matched)) {
+			MySwal.fire({
+				title: "Good job!",
+				text: "You Won!",
+				icon: "success",
+				confirmButtonText: "New Game",
+				showCancelButton: true,
+				didClose() {
+					window.location.reload();
+				},
+			});
+		}
+	}, [matched]);
 
 	return (
 		<div
