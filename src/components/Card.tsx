@@ -1,8 +1,8 @@
 import { useAtom } from "jotai";
-import { usersAtom } from "../lib/Atoms";
+import { UsersAtom } from "../lib/Atoms";
 
 const Card = ({ id }: { id: number }) => {
-	const [users] = useAtom(usersAtom);
+	const [users] = useAtom(UsersAtom);
 	const user = users[id];
 	return (
 		<>
