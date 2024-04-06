@@ -4,42 +4,61 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import Card from "./Card";
 import { useAtom } from "jotai";
-import { FlippedCardsAtom, FlippedCardsIdsAtom } from "../lib/Atoms";
-import { checkMatch } from "../lib/Functions";
+import {
+	FlippedCardsAtom,
+	FlippedCardsIdsAtom,
+	MatchedAtom,
+} from "../lib/Atoms";
+import { checkMatch, findMatchingPairs } from "../lib/Functions";
 
 const CardFlipper = ({ id, index }: { id: number; index: number }) => {
 	const [isFlipped, setIsFlipped] = useState(false);
-	const [isMatched] = useState(false);
+	const [isMatched, setIsMatched] = useState(false);
 	const [flippedCards, setFlippedCards] = useAtom(FlippedCardsAtom);
 	const [flippedCardsIds, setFlippedCardsIds] = useAtom(FlippedCardsIdsAtom);
+	const [matched, setMatched] = useAtom(MatchedAtom);
 
 	const handleClick = (id: number, index: number) => {
-		if ((flippedCards.size == 2 && !flippedCards.has(index)) || isMatched) {
+		if (checkMatch(index, matched) || isMatched) {
+			setIsMatched(true);
+			return;
+		}
+
+		if (
+			flippedCards.size - matched.length == 2 &&
+			!flippedCards.has(index)
+		) {
 			return;
 		}
 
 		// Create a new Set with the existing values of flippedCards
 		const newFlippedCards = new Set(flippedCards);
-		const newflippedCardsIds = new Set(flippedCardsIds);
+		let newFlippedCardsIds = flippedCardsIds;
 
 		if (flippedCards.has(index)) {
 			newFlippedCards.delete(index);
-			newflippedCardsIds.delete(id);
+
+			newFlippedCardsIds = flippedCardsIds.filter((item) => item !== id);
 		} else {
 			// Add the index to the new set
 			newFlippedCards.add(index);
-			newflippedCardsIds.add(id);
+			newFlippedCardsIds.push(id);
 		}
 
-		// Update the flippedCards atom with the new set
-		setFlippedCards(newFlippedCards);
-		setFlippedCardsIds(newflippedCardsIds);
-
 		// Call checkMatch function with id
-		checkMatch(newFlippedCards, newflippedCardsIds);
+		const matchingPairs = findMatchingPairs(
+			newFlippedCards,
+			newFlippedCardsIds,
+		);
+
+		setMatched(matchingPairs);
 
 		// Toggle the isFlipped state
 		setIsFlipped((prev) => !prev);
+
+		// Update the flippedCards atom with the new set
+		setFlippedCards(newFlippedCards);
+		setFlippedCardsIds(newFlippedCardsIds);
 	};
 
 	return (

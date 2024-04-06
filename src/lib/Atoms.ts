@@ -5,5 +5,12 @@
 import { atom } from "jotai";
 import { FetchUsers, populateCardsArray } from "./Functions";
 
-export const cardsAtom = atom(populateCardsArray());
-export const usersAtom = atom(await FetchUsers());
+export const CardsAtom = atom(populateCardsArray());
+
+export const UsersAtom = atom(await FetchUsers());
+
+export const FlippedCardsAtom = atom(new Set<number>());
+
+export const FlippedCardsIdsAtom = atom<number[]>([]);
+
+export const MatchedAtom = atom<number[]>([]);
