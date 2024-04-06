@@ -1,0 +1,11 @@
+{
+	"compilerOptions": {
+		"target": "ESNext",
+		"module": "NodeNext",
+		"strict": false,
+		"esModuleInterop": true
+	},
+	"compileOnSave": true,
+	"include": ["**/*.ts", "test.js"],
+	"exclude": ["node_modules"]
+}
