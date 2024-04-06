@@ -6,7 +6,7 @@ const Card = ({ id }: { id: number }) => {
 	const user = users[id];
 	return (
 		<>
-			<div className="w-full h-full aspect-square cursor-pointer flex items-center justify-center">
+			<div className="w-fit h-fit cursor-pointer flex items-center justify-center">
 				<img
 					className="w-full h-full object-scale-down aspect-square"
 					src={user.images[0]}
