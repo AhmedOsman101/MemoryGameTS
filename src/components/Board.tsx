@@ -1,9 +1,9 @@
 import { useAtom } from "jotai";
-import { cardsAtom } from "../lib/Atoms";
+import { CardsAtom } from "../lib/Atoms";
 import CardFlipper from "./CardFlipper";
 
 const Board = () => {
-	const [cards] = useAtom(cardsAtom);
+	const [cards] = useAtom(CardsAtom);
 
 	return (
 		<>
