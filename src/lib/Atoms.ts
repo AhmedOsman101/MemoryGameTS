@@ -7,7 +7,7 @@ import { FetchUsers, populateCardsArray } from "./Functions";
 
 export const CardsAtom = atom(populateCardsArray());
 
-export const UsersAtom = atom(async () => await FetchUsers());
+export const UsersAtom = atom(FetchUsers());
 
 export const FlippedCardsAtom = atom(new Set<number>());
 

@@ -68,7 +68,7 @@ const CardFlipper = ({ id, index }: { id: number; index: number }) => {
 	useEffect(() => {
 		if (checkWin(matched)) {
 			MySwal.fire({
-				title: "Good job!",
+				title: "Good Job!",
 				text: "You Won!",
 				icon: "success",
 				confirmButtonText: "New Game",
